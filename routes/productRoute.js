@@ -31,7 +31,7 @@ router.post('/product-filter', getFilterController)
 
 // Route for the Payments
 // Token
-router.get('/braintree/token', brainTreeTokenController)
+// router.get('/braintree/token', brainTreeTokenController)
 
 // Route for The payments
 router.post('/create-checkout-session', paymentController);

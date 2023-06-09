@@ -12,12 +12,12 @@ const { BraintreeGateway } = require("braintree");
 
 
 // Payment Gateway
-const paymentGateway = new braintree.BraintreeGateway({
-    environment: braintree.Environment.Sandbox,
-    merchantId: process.env.BRAINTREE_MERCHANT_ID,
-    privateKey: process.env.BRAINTREE_PRIVATE_KEY,
-    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-})
+// const paymentGateway = new braintree.BraintreeGateway({
+//     environment: braintree.Environment.Sandbox,
+//     merchantId: process.env.BRAINTREE_MERCHANT_ID,
+//     privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+//     publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+// })
 
 
 exports.createProductController = async (req, res) => {
@@ -190,51 +190,51 @@ exports.getFilterController = async (req, res) => {
 
 // Payment Gateway API
 // -->TOken
-exports.brainTreeTokenController = async (req, res) => {
-    try {
-        paymentGateway.clientToken.generate({}, (err, response) => {
-            if(err) {
-                res.status(500).send(err)
-            }else {
-                res.send(response)
-            }
-        })         
-    } catch (error) {
-        console.log(error);
-    }
-}
+// exports.brainTreeTokenController = async (req, res) => {
+//     try {
+//         paymentGateway.clientToken.generate({}, (err, response) => {
+//             if(err) {
+//                 res.status(500).send(err)
+//             }else {
+//                 res.send(response)
+//             }
+//         })         
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 // Payment Gateway API
 // --> Payment
-exports.brainTreePaymentController = async (req, res) => {
-    try {
-        const {cart, nonce} = req.body;
-        let total = 0;
-        cart.map(item => total += item.price);
-        let newTransaction = paymentGateway.transaction.sale({
-            amount:total,
-            paymentMethodNonce: nonce,
-            options: {
-                submitForSettlement: true
-            }
-        },
-        function(error, result){
-            if(result) {
-                const order = new Order({
-                    products: cart,
-                    payment: result,
-                    buyer: req.user._id,
-                }).save()
-                res.json({ok: true})
-            }else {
-                res.status(500).send(error)
-            }
-        }
-        )
-    } catch (error) {
-        console.log(error);
-    }
-}
+// exports.brainTreePaymentController = async (req, res) => {
+//     try {
+//         const {cart, nonce} = req.body;
+//         let total = 0;
+//         cart.map(item => total += item.price);
+//         let newTransaction = paymentGateway.transaction.sale({
+//             amount:total,
+//             paymentMethodNonce: nonce,
+//             options: {
+//                 submitForSettlement: true
+//             }
+//         },
+//         function(error, result){
+//             if(result) {
+//                 const order = new Order({
+//                     products: cart,
+//                     payment: result,
+//                     buyer: req.user._id,
+//                 }).save()
+//                 res.json({ok: true})
+//             }else {
+//                 res.status(500).send(error)
+//             }
+//         }
+//         )
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 // paymeny by stripe controller 
 exports.paymentController = async (req, res) => {
